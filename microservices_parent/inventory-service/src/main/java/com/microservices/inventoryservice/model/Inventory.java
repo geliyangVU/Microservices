@@ -4,7 +4,7 @@ package com.microservices.inventoryservice.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name ="t_inventory")
+@Table(name = "t_inventory")
 public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
