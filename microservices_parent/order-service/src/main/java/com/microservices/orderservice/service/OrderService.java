@@ -1,6 +1,7 @@
 package com.microservices.orderservice.service;
 
 
+import com.microservices.orderservice.dto.InventoryResponse;
 import com.microservices.orderservice.dto.OrderLineItemsDto;
 import com.microservices.orderservice.dto.OrderRequest;
 import com.microservices.orderservice.model.Order;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,10 +42,22 @@ public class OrderService {
 
         order.setOrderLineItemsList(orderLineItems);
 
+        List<String> skuCodeList = order.getOrderLineItemsList().stream()
+                .map(OrderLineItems::getSkuCode).toList();
+
+
+
         //Communicate with inventory service to check if product is in stock, place order if in stock.
-        Boolean inventoryInStockResult = webClient.get()
-                .uri("http://localhost:8095/api/inventory").retrieve().bodyToMono(Boolean.class).block();
-        if(inventoryInStockResult){
+        InventoryResponse[] inventoryInStockResultArray = webClient.get()
+                .uri("http://localhost:8095/api/inventory", uriBuilder ->
+                        uriBuilder.queryParam("skuCodeList",skuCodeList).build())
+                .retrieve().bodyToMono(InventoryResponse[].class).block();
+
+        boolean allProductInStock = Arrays.
+                                    stream(inventoryInStockResultArray)
+                                    .allMatch(inventoryResponse -> inventoryResponse.isInStock());
+
+        if(allProductInStock){
             orderRepository.save(order);
 
         }else{
