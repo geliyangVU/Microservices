@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -20,6 +21,8 @@ public class InventoryController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<InventoryResponse> isInStock(@RequestParam List<String> skuCodeList) {
+        System.out.println("skuCodeList printed below");
+        System.out.println(skuCodeList);
         return inventoryService.isInStock(skuCodeList);
     }
 }
