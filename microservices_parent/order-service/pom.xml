@@ -14,7 +14,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <version.netty>4.1.59.Final</version.netty>
+        <version.netty>4.1.79.Final</version.netty>
 
 
     </properties>
@@ -52,13 +52,12 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-resolver-dns-native-macos</artifactId>
+            <version>${version.netty}</version>
             <scope>runtime</scope>
             <classifier>osx-x86_64</classifier>
-            <version>4.1.72.Final</version>
         </dependency>
     </dependencies>
 
