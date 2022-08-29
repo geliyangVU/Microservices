@@ -21,13 +21,14 @@ import java.util.stream.Stream;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, WebClient webClient) {
+    public OrderService(OrderRepository orderRepository, WebClient.Builder webClientBuilder) {
         this.orderRepository = orderRepository;
-        this.webClient = webClient;
+        this.webClientBuilder = webClientBuilder;
     }
+
 
     public void placeOrder(OrderRequest orderRequest){
 
@@ -48,8 +49,8 @@ public class OrderService {
                 .map(OrderLineItems::getSkuCode).toList();
 
         //Communicate with inventory service to check if product is in stock, place order if in stock.
-        InventoryResponse[] inventoryInStockResultArray = webClient.get()
-                .uri("http://localhost:8095/api/inventory", uriBuilder ->
+        InventoryResponse[] inventoryInStockResultArray = webClientBuilder.build().get()
+                .uri("http://inventory-service/api/inventory", uriBuilder ->
                         uriBuilder.queryParam("skuCodeList",skuCodeList).build())
                 .retrieve().bodyToMono(InventoryResponse[].class).block();
         boolean allProductInStock = Stream.of(inventoryInStockResultArray).
