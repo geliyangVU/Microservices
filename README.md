@@ -1,4 +1,3 @@
 # Microservices
 
-An order management microservice system followed youtube tutorials from Java Techie
-
+An order management microservice system made with Spring boot, SpringCloud,WebClient..
