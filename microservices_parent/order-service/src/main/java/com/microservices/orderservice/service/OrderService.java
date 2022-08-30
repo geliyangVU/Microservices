@@ -30,7 +30,7 @@ public class OrderService {
     }
 
 
-    public void placeOrder(OrderRequest orderRequest){
+    public String placeOrder(OrderRequest orderRequest){
 
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
@@ -58,6 +58,7 @@ public class OrderService {
 
         if(allProductInStock){
             orderRepository.save(order);
+            return "successful placed order";
 
         }else{
             throw new IllegalArgumentException("Product not in stock.");
