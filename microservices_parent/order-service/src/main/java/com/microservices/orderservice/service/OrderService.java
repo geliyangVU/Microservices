@@ -2,12 +2,15 @@ package com.microservices.orderservice.service;
 
 
 import com.microservices.orderservice.dto.InventoryResponse;
+import com.microservices.orderservice.dto.OrderDto;
 import com.microservices.orderservice.dto.OrderLineItemsDto;
 import com.microservices.orderservice.dto.OrderRequest;
 import com.microservices.orderservice.model.Order;
 import com.microservices.orderservice.model.OrderLineItems;
 import com.microservices.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,10 +26,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
 
+    private final StreamBridge streamBridge;
+
     @Autowired
-    public OrderService(OrderRepository orderRepository, WebClient.Builder webClientBuilder) {
+    public OrderService(OrderRepository orderRepository, WebClient.Builder webClientBuilder, StreamBridge streamBridge) {
         this.orderRepository = orderRepository;
         this.webClientBuilder = webClientBuilder;
+        this.streamBridge = streamBridge;
     }
 
 
@@ -58,6 +64,9 @@ public class OrderService {
 
         if(allProductInStock){
             orderRepository.save(order);
+
+            streamBridge.send("notificationEventSupplier-out-0",
+                    MessageBuilder.withPayload(new OrderDto(order.getOrderNumber())).build());
             return "successful placed order";
 
         }else{
