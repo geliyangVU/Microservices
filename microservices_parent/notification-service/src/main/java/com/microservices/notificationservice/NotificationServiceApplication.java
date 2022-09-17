@@ -16,14 +16,14 @@ public class NotificationServiceApplication {
 
 
 
-    @Bean
-    public Consumer<Message<OrderDto>> notificationEventSupplier() {
-        return message -> {
-            try {
-                new EmailSender().sendEmail(message.getPayload());
-            } catch (InterruptedException e) {
-                throw new RuntimeException("Something went wrong while sending email");
-            }
-        };
-    }
+//    @Bean
+//    public Consumer<Message<OrderDto>> notificationEventSupplier() {
+//        return message -> {
+//            try {
+//                new EmailSender().sendEmail(message.getPayload());
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException("Something went wrong while sending email");
+//            }
+//        };
+//    }
 }

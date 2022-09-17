@@ -1,8 +1,0 @@
-/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/order-service/src/main/java/com/microservices/orderservice/controller/OrderController.java
-/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/order-service/src/main/java/com/microservices/orderservice/OrderServiceApplication.java
-/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/order-service/src/main/java/com/microservices/orderservice/dto/OrderRequest.java
-/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/order-service/src/main/java/com/microservices/orderservice/repository/OrderRepository.java
-/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/order-service/src/main/java/com/microservices/orderservice/dto/OrderLineItemsDto.java
-/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/order-service/src/main/java/com/microservices/orderservice/service/OrderService.java
-/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/order-service/src/main/java/com/microservices/orderservice/model/OrderLineItems.java
-/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/order-service/src/main/java/com/microservices/orderservice/model/Order.java
