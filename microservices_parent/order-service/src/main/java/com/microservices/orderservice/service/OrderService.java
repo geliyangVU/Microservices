@@ -5,11 +5,13 @@ import com.microservices.orderservice.dto.InventoryResponse;
 import com.microservices.orderservice.dto.OrderDto;
 import com.microservices.orderservice.dto.OrderLineItemsDto;
 import com.microservices.orderservice.dto.OrderRequest;
+import com.microservices.orderservice.event.OrderPlacedEvent;
 import com.microservices.orderservice.model.Order;
 import com.microservices.orderservice.model.OrderLineItems;
 import com.microservices.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +29,14 @@ public class OrderService {
     private final WebClient.Builder webClientBuilder;
 
     private final StreamBridge streamBridge;
+    private final KafkaTemplate kafkaTemplate;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, WebClient.Builder webClientBuilder, StreamBridge streamBridge) {
+    public OrderService(OrderRepository orderRepository, WebClient.Builder webClientBuilder, StreamBridge streamBridge, KafkaTemplate kafkaTemplate) {
         this.orderRepository = orderRepository;
         this.webClientBuilder = webClientBuilder;
         this.streamBridge = streamBridge;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
 
@@ -64,11 +68,8 @@ public class OrderService {
 
         if(allProductInStock){
             orderRepository.save(order);
-
-            streamBridge.send("notificationEventSupplier-out-0",
-                    MessageBuilder.withPayload(new OrderDto(order.getOrderNumber())).build());
-            return "successful placed order";
-
+            kafkaTemplate.send("notificationTopic", new OrderPlacedEvent(order.getOrderNumber()));
+            return "Order Placed Successfully";
         }else{
             throw new IllegalArgumentException("Product not in stock.");
         }
