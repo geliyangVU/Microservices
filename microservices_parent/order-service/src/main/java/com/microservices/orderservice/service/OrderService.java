@@ -29,7 +29,7 @@ public class OrderService {
     private final WebClient.Builder webClientBuilder;
 
     private final StreamBridge streamBridge;
-    private final KafkaTemplate kafkaTemplate;
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
     @Autowired
     public OrderService(OrderRepository orderRepository, WebClient.Builder webClientBuilder, StreamBridge streamBridge, KafkaTemplate kafkaTemplate) {
