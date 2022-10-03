@@ -1,5 +1,8 @@
 package com.microservices.orderservice.event;
 
+import lombok.Data;
+
+@Data
 public class OrderPlacedEvent {
     private String orderNumber;
 

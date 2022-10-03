@@ -10,9 +10,7 @@ import com.microservices.orderservice.model.Order;
 import com.microservices.orderservice.model.OrderLineItems;
 import com.microservices.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -28,14 +26,12 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
 
-    private final StreamBridge streamBridge;
     private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, WebClient.Builder webClientBuilder, StreamBridge streamBridge, KafkaTemplate kafkaTemplate) {
+    public OrderService(OrderRepository orderRepository, WebClient.Builder webClientBuilder, KafkaTemplate kafkaTemplate) {
         this.orderRepository = orderRepository;
         this.webClientBuilder = webClientBuilder;
-        this.streamBridge = streamBridge;
         this.kafkaTemplate = kafkaTemplate;
     }
 
@@ -69,7 +65,7 @@ public class OrderService {
         if(allProductInStock){
             orderRepository.save(order);
             kafkaTemplate.send("notificationTopic", new OrderPlacedEvent(order.getOrderNumber()));
-            return "Order Placed Successfully";
+            return "Order Placed Successfully,notification service invoked from kafka";
         }else{
             throw new IllegalArgumentException("Product not in stock.");
         }
