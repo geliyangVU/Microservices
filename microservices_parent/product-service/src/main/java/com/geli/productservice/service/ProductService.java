@@ -11,15 +11,13 @@ import java.util.List;
 
 @Service
 public class ProductService {
+
     private ProductRepository productRepository;
 
+    @Autowired
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-
-    public ProductService() {
-    }
-
 
     public void createProduct(ProductRequest productRequest) {
         Product product = new Product();

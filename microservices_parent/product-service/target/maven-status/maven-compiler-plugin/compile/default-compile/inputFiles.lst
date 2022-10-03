@@ -1,0 +1,7 @@
+/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/product-service/src/main/java/com/geli/productservice/model/Product.java
+/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/product-service/src/main/java/com/geli/productservice/service/ProductService.java
+/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/product-service/src/main/java/com/geli/productservice/dto/ProductRequest.java
+/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/product-service/src/main/java/com/geli/productservice/ProductServiceApplication.java
+/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/product-service/src/main/java/com/geli/productservice/controller/ProductController.java
+/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/product-service/src/main/java/com/geli/productservice/dto/ProductResponse.java
+/Users/geliyang/Desktop/github/MicroserviceMavenParentProject/microservices_parent/product-service/src/main/java/com/geli/productservice/repository/ProductRepository.java
